@@ -21,9 +21,9 @@ public:
 	IEntity( const IEntity & other );
 
 
-	//virtual void JsonToEntity( QByteArray ba,IEntity * entity );
+	virtual void JsonToEntity( QByteArray ba,IEntity * entity );
 	virtual void JsonParseObject( QByteArray ba );
-	virtual void JsonParseArray( QByteArray ba );
+	virtual void JsonParseArray(QJsonArray &npcArray);
 
 	
 };

@@ -125,6 +125,7 @@ class Person : public IEntity
 
 	void JsonToEntity( QByteArray ba );
 	void JsonParseObject(QByteArray ba);
+	void JsonParseArray(QJsonArray &npcArray);
 
 
     QString name() const;
