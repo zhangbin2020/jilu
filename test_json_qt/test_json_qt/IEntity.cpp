@@ -16,7 +16,7 @@ IEntity::IEntity(const IEntity & other)
 
 }
 
-void IEntity::JsonToEntity(QByteArray ba, IEntity * entity)
+void IEntity::Parse(QByteArray ba, IEntity * entity)
 {
 	QJsonParseError jsonError;//Qt5新类
 	QJsonDocument json = QJsonDocument::fromJson(ba, &jsonError);//Qt5新类
@@ -41,7 +41,7 @@ void IEntity::JsonToEntity(QByteArray ba, IEntity * entity)
 					{
 						QJsonObject tempObj = obj[propertyName].toObject();
 						QByteArray ba1 = QJsonDocument(tempObj).toJson();
-						entity->JsonParseObject(ba1);
+						entity->JsonParseObject(ba1,propertyName);
 						continue;
 					}
 					else
@@ -60,18 +60,8 @@ void IEntity::JsonToEntity(QByteArray ba, IEntity * entity)
 						}
 						else if (obj[propertyName].isArray())
 						{
-							QJsonArray npcArray = obj[propertyName].toArray();
-							entity->JsonParseArray( npcArray );
-// 							m_lsStruct.clear();
-// 
-// 							QJsonArray npcArray = obj[propertyName].toArray();
-// 							for (int npcIndex = 0; npcIndex < npcArray.size(); ++npcIndex)
-// 							{
-// 								QJsonObject npcObject = npcArray[npcIndex].toObject();
-// 								TestStruct2 ts;
-// 								ts.JsonToEntity(QJsonDocument(npcObject).toJson());
-// 								m_lsStruct << ts;
-// 							}
+							QJsonArray jsonArray = obj[propertyName].toArray();
+							entity->JsonParseArray(jsonArray, propertyName);
 						}
 					}
 				}
@@ -82,12 +72,12 @@ void IEntity::JsonToEntity(QByteArray ba, IEntity * entity)
 }
 
 
-void IEntity::JsonParseObject(QByteArray ba)
+void IEntity::JsonParseObject(QByteArray ba, QString strClassName)
 {
 
 }
 
-void IEntity::JsonParseArray(QJsonArray &npcArray)
+void IEntity::JsonParseArray(QJsonArray &npcArray, QString strClassName)
 {
 
 }

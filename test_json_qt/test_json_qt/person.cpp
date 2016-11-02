@@ -34,59 +34,10 @@ TestStruct2& TestStruct2::operator = (const TestStruct2& rhs)
 
  void TestStruct2::JsonToEntity(QByteArray ba)
  {
-	 IEntity::JsonToEntity(ba, this);
- 
-//  	QJsonParseError jsonError;//Qt5新类
-//  	QJsonDocument json = QJsonDocument::fromJson(ba, &jsonError);//Qt5新类
-//  
-//  
-//  	if (jsonError.error == QJsonParseError::NoError)//Qt5新类
-//  	{
-//  		if (json.isObject())
-//  		{
-//  			QJsonObject obj = json.object();//Qt5新类
-//  
-//  			QMetaObject metaobject = this->staticMetaObject;
-//  			int count = metaobject.propertyCount();
-//  			for (int i = 0; i < count; ++i)
-//  			{
-//  				QMetaProperty metaproperty = metaobject.property(i);
-//  				const char *name = metaproperty.name();
-//  				QString propertyName(name);
-//  
-//  				if (obj.contains(propertyName))
-//  				{
-//  					if (obj[propertyName].isObject())
-//  					{
-//  						QJsonObject tempObj = obj[propertyName].toObject();
-//  						QByteArray ba1 = QJsonDocument(tempObj).toJson();
-//  						/*m_testStruct.JsonToEntity(ba1);*/
-//  						return;
-//  					}
-//  					else
-//  					{
-//  						if (obj[propertyName].isBool())
-//  						{
-//  							this->setProperty(name, obj[propertyName].toBool());
-//  						}
-//  						else if (obj[propertyName].isDouble())
-//  						{
-//  							this->setProperty(name, obj[propertyName].toDouble());
-//  						}
-//  						else if (obj[propertyName].isString())
-//  						{
-//  							this->setProperty(name, obj[propertyName].toString());
-//  						}
-//  					}
-//  				}
-//  			}
-//  
-//  
-//  		}
-//  	}
+	 IEntity::Parse(ba, this);
  }
 
-void TestStruct2::JsonParseObject(QByteArray ba)
+ void TestStruct2::JsonParseObject(QByteArray ba, QString strClassName)
 {
 
 }
@@ -163,7 +114,7 @@ Person::Person(QObject* parent)
     m_luckyNumber(0)
 {
  	qRegisterMetaType< TestStruct2 >("TestStruct2");
-// 	qRegisterMetaType< JsonEntityPtr >("JsonEntityPtr");
+	qRegisterMetaType< QList<TestStruct2> >("listTS");
 }
 
 Person::Person( const Person& ts )
@@ -183,9 +134,8 @@ Person::~Person()
 }
 
  void Person::JsonToEntity(QByteArray ba)
- {
- 
-	 IEntity::JsonToEntity(ba, this);
+ { 
+	 IEntity::Parse(ba, this);
 //  	QJsonParseError jsonError;//Qt5新类
 //  	QJsonDocument json = QJsonDocument::fromJson(ba, &jsonError);//Qt5新类
 //  
@@ -251,14 +201,25 @@ Person::~Person()
 
 
 
-void Person::JsonParseObject(QByteArray ba)
+ void Person::JsonParseObject(QByteArray ba, QString strClassName)
 {
-	m_testStruct.JsonToEntity(ba);
+	if ( strClassName == "testStruct" )
+	{
+		m_testStruct.JsonToEntity(ba);
+	}
 }
 
-void Person::JsonParseArray(QJsonArray &npcArray)
+ void Person::JsonParseArray(QJsonArray &npcArray, QString strClassName)
 {
+	 m_lsStruct.clear();
 
+	 for (int npcIndex = 0; npcIndex < npcArray.size(); ++npcIndex)
+	 {
+		 QJsonObject npcObject = npcArray[npcIndex].toObject();
+		 TestStruct2 ts;
+		 ts.JsonToEntity(QJsonDocument(npcObject).toJson());
+		 m_lsStruct << ts;
+	 }
 }
 
 QString Person::name() const
@@ -329,6 +290,16 @@ TestStruct2 Person::testClass()
 void Person::setTestClass( TestStruct2 ts)
 {
 	m_testStruct = ts;
+}
+
+QList<TestStruct2> Person::getLsTS()
+{
+	return m_lsStruct;
+}
+
+void Person::setLsTs(QList<TestStruct2> ts)
+{
+	m_lsStruct = ts;
 }
 
 // JsonEntityPtr Person::testClass() 

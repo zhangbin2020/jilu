@@ -94,7 +94,7 @@ public:
 	TestStruct2& operator = (const TestStruct2& rhs);
 
 	void JsonToEntity(QByteArray ba);
-	void JsonParseObject(QByteArray ba);
+	void JsonParseObject(QByteArray ba, QString strClassName);
 
 	int num2() const;
 	void setNum2(const int& n);
@@ -116,6 +116,7 @@ class Person : public IEntity
   Q_PROPERTY(QVariant customField READ customField WRITE setCustomField)
   Q_PROPERTY(quint16 luckyNumber READ luckyNumber WRITE setLuckyNumber)
   Q_PROPERTY(TestStruct2 testStruct READ testClass WRITE setTestClass)
+  Q_PROPERTY(QList<TestStruct2> listTS READ getLsTS WRITE setLsTs)
   Q_ENUMS(Gender)
 
  public:
@@ -124,8 +125,8 @@ class Person : public IEntity
     ~Person();
 
 	void JsonToEntity( QByteArray ba );
-	void JsonParseObject(QByteArray ba);
-	void JsonParseArray(QJsonArray &npcArray);
+	void JsonParseObject(QByteArray ba, QString strClassName);
+	void JsonParseArray(QJsonArray &npcArray, QString strClassName);
 
 
     QString name() const;
@@ -149,6 +150,9 @@ class Person : public IEntity
 
 	TestStruct2 testClass();
 	void setTestClass( TestStruct2 ts);
+
+	QList<TestStruct2> getLsTS();
+	void setLsTs(QList<TestStruct2> ts);
 
 
 protected:

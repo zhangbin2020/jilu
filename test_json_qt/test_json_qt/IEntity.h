@@ -21,9 +21,11 @@ public:
 	IEntity( const IEntity & other );
 
 
-	virtual void JsonToEntity( QByteArray ba,IEntity * entity );
-	virtual void JsonParseObject( QByteArray ba );
-	virtual void JsonParseArray(QJsonArray &npcArray);
+	virtual void Parse( QByteArray ba,IEntity * entity );
+
+	//strClassName≈–∂œΩ‚Œˆƒƒ∏ˆ Ù–‘
+	virtual void JsonParseObject(QByteArray ba, QString strClassName);
+	virtual void JsonParseArray(QJsonArray &npcArray,QString strClassName);
 
 	
 };
