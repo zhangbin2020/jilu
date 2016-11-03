@@ -81,7 +81,7 @@
 
 #include "IEntity.h"
 
-class TestStruct2: public IEntity
+class TestStruct2: public IJsonParser
 {
 	Q_OBJECT
 		Q_PROPERTY(int num2 READ num2 WRITE setNum2)
@@ -104,7 +104,7 @@ private:
 };
 
 
-class Person : public IEntity
+class Person : public IJsonParser
 {
   Q_OBJECT
 

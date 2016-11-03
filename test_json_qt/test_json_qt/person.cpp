@@ -8,14 +8,14 @@
 #include <QMetaProperty>
 
 TestStruct2::TestStruct2(QObject* parent)
-	: IEntity(parent),
+	: IJsonParser(parent),
 	m_num(0)
 {
 
 }
 
 TestStruct2::TestStruct2(const TestStruct2& ts )
-:IEntity(ts)
+:IJsonParser(ts)
 {
 	this->m_num = ts.num2();
 }
@@ -34,7 +34,7 @@ TestStruct2& TestStruct2::operator = (const TestStruct2& rhs)
 
  void TestStruct2::JsonToEntity(QByteArray ba)
  {
-	 IEntity::Parse(ba, this);
+	 IJsonParser::Parse(ba, this);
  }
 
  void TestStruct2::JsonParseObject(QByteArray ba, QString strClassName)
@@ -107,7 +107,7 @@ void TestStruct2::setNum2(const int& n)
 Q_DECLARE_METATYPE( Person );
 
 Person::Person(QObject* parent)
-  : IEntity(parent),
+  : IJsonParser(parent),
     m_name(),
     m_phoneNumber(0),
     m_gender(Female),
@@ -118,7 +118,7 @@ Person::Person(QObject* parent)
 }
 
 Person::Person( const Person& ts )
-:IEntity(ts)
+:IJsonParser(ts)
 {
 	this->m_customField = ts.m_customField;
 	this->m_dob = ts.m_dob;
@@ -135,7 +135,7 @@ Person::~Person()
 
  void Person::JsonToEntity(QByteArray ba)
  { 
-	 IEntity::Parse(ba, this);
+	 IJsonParser::Parse(ba, this);
 //  	QJsonParseError jsonError;//Qt5新类
 //  	QJsonDocument json = QJsonDocument::fromJson(ba, &jsonError);//Qt5新类
 //  
@@ -211,14 +211,16 @@ Person::~Person()
 
  void Person::JsonParseArray(QJsonArray &npcArray, QString strClassName)
 {
-	 m_lsStruct.clear();
-
 	 for (int npcIndex = 0; npcIndex < npcArray.size(); ++npcIndex)
 	 {
 		 QJsonObject npcObject = npcArray[npcIndex].toObject();
-		 TestStruct2 ts;
-		 ts.JsonToEntity(QJsonDocument(npcObject).toJson());
-		 m_lsStruct << ts;
+		 if (strClassName == "listTS")
+		 {
+			 m_lsStruct.clear();			
+			 TestStruct2 ts;
+			 ts.JsonToEntity(QJsonDocument(npcObject).toJson());
+			 m_lsStruct << ts;
+		 }
 	 }
 }
 

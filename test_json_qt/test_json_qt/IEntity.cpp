@@ -1,31 +1,31 @@
 #include "IEntity.h"
 
-IEntity::IEntity(QObject * parent)
+IJsonParser::IJsonParser(QObject * parent)
 :QObject(parent)
 {
 
 }
 
-IEntity::~IEntity()
+IJsonParser::~IJsonParser()
 {
 
 }
 
-IEntity::IEntity(const IEntity & other)
+IJsonParser::IJsonParser(const IJsonParser & other)
 {
 
 }
 
-void IEntity::Parse(QByteArray ba, IEntity * entity)
+void IJsonParser::Parse(QByteArray ba, IJsonParser * entity)
 {
-	QJsonParseError jsonError;//Qt5新类
-	QJsonDocument json = QJsonDocument::fromJson(ba, &jsonError);//Qt5新类
+	QJsonParseError jsonError;
+	QJsonDocument json = QJsonDocument::fromJson(ba, &jsonError);
 
-	if (jsonError.error == QJsonParseError::NoError)//Qt5新类
+	if (jsonError.error == QJsonParseError::NoError)
 	{
 		if (json.isObject())
 		{
-			QJsonObject obj = json.object();//Qt5新类
+			QJsonObject obj = json.object();
 
 			const QMetaObject* metaobject = entity->metaObject();//entity->staticMetaObject;
 			int count = metaobject->propertyCount();
@@ -66,18 +66,17 @@ void IEntity::Parse(QByteArray ba, IEntity * entity)
 					}
 				}
 			}//for
-
 		}
 	}
 }
 
 
-void IEntity::JsonParseObject(QByteArray ba, QString strClassName)
+void IJsonParser::JsonParseObject(QByteArray ba, QString strClassName)
 {
 
 }
 
-void IEntity::JsonParseArray(QJsonArray &npcArray, QString strClassName)
+void IJsonParser::JsonParseArray(QJsonArray &npcArray, QString strClassName)
 {
 
 }

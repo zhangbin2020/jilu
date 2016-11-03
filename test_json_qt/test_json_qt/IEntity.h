@@ -10,18 +10,18 @@
 
 //添加一个模版，T，JsonToEntity（）函数在IEntity中实现，直接调用T->JsonToEntity()函数，
 
-class IEntity: public QObject
+class IJsonParser: public QObject
 {
 	Q_OBJECT
 
 public:
-	IEntity(QObject * parent = 0);
-	~IEntity();
+	IJsonParser(QObject * parent = 0);
+	~IJsonParser();
 
-	IEntity( const IEntity & other );
+	IJsonParser( const IJsonParser & other );
 
 
-	virtual void Parse( QByteArray ba,IEntity * entity );
+	virtual void Parse( QByteArray ba,IJsonParser * entity );
 
 	//strClassName判断解析哪个属性
 	virtual void JsonParseObject(QByteArray ba, QString strClassName);
