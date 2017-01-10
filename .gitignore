@@ -1,2 +1,9 @@
-test_json_qt/test_json_qt/Debug/*
-test_json_qt/test_json_qt/GeneratedFiles/*
+*/Debug/*
+*/GeneratedFiles/*
+/*.tlog
+moc_*.*
+ui_*.*
+*.sdf
+*.opensdf
+qrc_*.*
+*.tlog
