@@ -12,6 +12,7 @@ test_sqlite::test_sqlite(QWidget *parent, Qt::WFlags flags)
 	connect( ui.pushButton,SIGNAL(clicked()),this,SLOT( OnBeginThread() ) );
 	connect( ui.btn3,SIGNAL(clicked()),this,SLOT( OnClearDb() ) );
 	connect( ui.btn4,SIGNAL(clicked()),this,SLOT( OnWrite() ) );
+	connect( ui.btn5,SIGNAL(clicked()),this,SLOT( OnBtn5() ) );
 
 	m_pManagerWork = new WorkerThreadManager(this);
 	connect(m_pManagerWork, SIGNAL(AllFinishedSignal()), this, SLOT(OnWorkerThreadManagerFinished()));
@@ -255,6 +256,57 @@ void test_sqlite::OnWrite()
 	m_pManagerWork->BeginWork();
 
 	m_time->start();
+
+}
+
+void test_sqlite::OnBtn5()
+{
+	//´ò¿ª
+	if(m_db.isValid())
+	{
+		m_db.open();
+	}
+	else
+	{
+		qDebug()<<"open db failed";
+	}
+
+	QTime tm;
+	tm.start();
+	for ( int i=0; i<1950; ++i )
+	{
+// 		QString strid = QString::number ( (quintptr)QThread::currentThread() );
+// 		if ( !QSqlDatabase::contains( strid ) )
+// 		{
+// 			m_db = QSqlDatabase::addDatabase("QSQLITE",strid);
+// 			m_db.setDatabaseName("D:\\github_jilu\\test_sqlite\\test_sqlite\\test.db");
+// 
+// 		}
+// 		else
+// 		{
+// 			m_db = QSqlDatabase::database(strid);
+// 		}
+
+		QString strReadTb = "insert into testMultithread(id,name) Values(:id,:name);";
+		QSqlQuery sq(m_db);
+		sq.prepare( strReadTb );
+
+		sq.bindValue(":id",i);
+		sq.bindValue(":name",QString::number(i));
+		if ( !sq.exec() )
+		{
+			qDebug()<<sq.lastError();
+			qDebug()<<"write exec failed"<<i;
+		}
+		else
+		{
+			qDebug()<<"insert data suc"<<i;
+		}
+		
+	}
+
+	qDebug()<<tm.elapsed()<<"-------------------";
+	m_db.close();
 
 }
 

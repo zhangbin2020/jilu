@@ -49,6 +49,7 @@ public slots:
 	void OnBeginThread();
 	void OnStop();
 	void OnWrite();
+	void OnBtn5();
 	void OnClearDb();
 	void OnWorkerThreadManagerFinished();
 
