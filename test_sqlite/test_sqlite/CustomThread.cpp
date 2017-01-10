@@ -16,17 +16,14 @@ CustomThread::~CustomThread()
 void CustomThread::createCon()
 {
 	m_db = QSqlDatabase::addDatabase("QSQLITE",m_name);
-	m_db.setDatabaseName("D:\\space_application\\test_sqlite\\test_sqlite\\test.db");
+	m_db.setDatabaseName("D:\github_jilu\test_sqlite\test_sqlite\\test.db");
 	if(m_db.isValid())
 		m_db.open();
 }
 
 void CustomThread::run()
 {
-
 	{
-
-
 		while(1)
 		{
 			if ( m_nFlag == 1 )
@@ -80,27 +77,22 @@ void CustomThread::run()
 
 			//sleep(30);
 		}
-
 		m_db.close();
-
-
 	}
-
-
 }
 
-QSqlDatabase CustomThread::GetDatabase(QString const& connectionName)
-{
-	if(QSqlDatabase::contains(connectionName))
-	{
-		//判断当前数据库ware.db中的连接中是否已经包含了connectionName这个连接
-		return QSqlDatabase::database(connectionName);
-	}
-	//新连接
-	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", connectionName);
-	db.setDatabaseName(connectionName);
-	//打开
-	if(db.isValid())
-		db.open();
-	return db;
-}		
+// QSqlDatabase CustomThread::GetDatabase(QString const& connectionName)
+// {
+// 	if(QSqlDatabase::contains(connectionName))
+// 	{
+// 		//判断当前数据库ware.db中的连接中是否已经包含了connectionName这个连接
+// 		return QSqlDatabase::database(connectionName);
+// 	}
+// 	//新连接
+// 	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", connectionName);
+// 	db.setDatabaseName(connectionName);
+// 	//打开
+// 	if(db.isValid())
+// 		db.open();
+// 	return db;
+// }		

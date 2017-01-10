@@ -1,13 +1,22 @@
 #include "test_sqlite.h"
+#include "TaskObj.h"
 
 test_sqlite::test_sqlite(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
+	, m_lsEntity()
 {
 	ui.setupUi(this);
 
 	CreateDB();
 	CreateThread();
 	connect( ui.pushButton,SIGNAL(clicked()),this,SLOT( OnBeginThread() ) );
+	connect( ui.btn3,SIGNAL(clicked()),this,SLOT( OnClearDb() ) );
+	connect( ui.btn4,SIGNAL(clicked()),this,SLOT( OnWrite() ) );
+
+	m_pManagerWork = new WorkerThreadManager(this);
+	connect(m_pManagerWork, SIGNAL(AllFinishedSignal()), this, SLOT(OnWorkerThreadManagerFinished()));
+
+	m_time = new QTime;
 }
 
 test_sqlite::~test_sqlite()
@@ -16,7 +25,7 @@ test_sqlite::~test_sqlite()
 }
 
 
-QSqlDatabase test_sqlite::GetDatabase(QString const& connectionName)
+QSqlDatabase& test_sqlite::GetDatabase(QString const& connectionName)
 {
 	if(QSqlDatabase::contains(connectionName))
 	{
@@ -24,28 +33,28 @@ QSqlDatabase test_sqlite::GetDatabase(QString const& connectionName)
 		return QSqlDatabase::database(connectionName);
 	}
 	//新连接
-	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", connectionName);
-	db.setDatabaseName(connectionName);
+	m_db = QSqlDatabase::addDatabase("QSQLITE", connectionName);
+	m_db.setDatabaseName(connectionName);
 	//打开
-	if(db.isValid())
-		db.open();
-	return db;
+	if(m_db.isValid())
+		m_db.open();
+	return m_db;
 }		
 
 void test_sqlite::CreateDB()
 {
 	QStringList sl = QSqlDatabase::drivers();
 
-	QSqlDatabase db = GetDatabase("D:\\space_application\\test_sqlite\\test_sqlite\\test.db");
+	QSqlDatabase db = GetDatabase("D:\\github_jilu\\test_sqlite\\test_sqlite\\test.db");
 
 
-	QString strCreateTb = "create table if not exists testMultithread (id integer primary key ,name varchar(30) );";
-	QSqlQuery sq(db);
-	sq.prepare( strCreateTb );
-	if ( !sq.exec() )
-	{
-		qDebug()<<"create failed"<<sq.lastError();
-	}
+// 	QString strCreateTb = "create table if not exists testMultithread (id integer primary key ,name varchar(30) );";
+// 	QSqlQuery sq(db);
+// 	sq.prepare( strCreateTb );
+// 	if ( !sq.exec() )
+// 	{
+// 		qDebug()<<"create failed"<<sq.lastError();
+// 	}
 
 	/*
 	QString strReadTb = "insert into testMultithread (id,name) values(2,'123');";
@@ -72,13 +81,35 @@ void test_sqlite::CreateDB()
 	}
 	*/
 
-	db.close();
+	QString strReadTb = "select * from testMultithread";
+	QSqlQuery sq1(m_db);
+	sq1.prepare( strReadTb );
+	if ( !sq1.exec() )
+	{
+		qDebug()<<"read exec failed";
+	}
+	else
+	{
+		while(sq1.next())
+		{
+			entity* pEntity = new entity;
+			pEntity->id = sq1.value(0).toLongLong();
+			pEntity->name = sq1.value(1).toString();
+
+			m_lsEntity << pEntity;
+		}
+		//qDebug()<<"read data suc"<<m_name<<sq.value(0).toInt()<<sq.value(1).toString()<<sq.size();//<<this->currentThreadId();
+	}
+
+	//m_db.close();
+
+	QString str = "";
 }
 
 void testSqlite( QString m_name, int m_nFlag )
 {
 	QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE",m_name);
-	m_db.setDatabaseName("D:\\space_application\\test_sqlite\\test_sqlite\\test.db");
+	m_db.setDatabaseName("D:\github_jilu\test_sqlite\test_sqlite\\test.db");
 	if(m_db.isValid())
 		m_db.open();
 
@@ -133,7 +164,6 @@ void testSqlite( QString m_name, int m_nFlag )
 			}
 		}
 
-		//sleep(30);
 	}
 
 	m_db.close();
@@ -167,6 +197,23 @@ void test_sqlite::CreateThread()
 }
 
 
+void test_sqlite::ReadData(QSqlDatabase& db)
+{
+
+	QString strReadTb = "select * from testMultithread";
+	QSqlQuery sq(db);
+	sq.prepare( strReadTb );
+	if ( !sq.exec() )
+	{
+		qDebug()<<"read exec failed";
+	}
+	else
+	{
+		sq.next();
+		//qDebug()<<"read data suc"<<m_name<<sq.value(0).toInt()<<sq.value(1).toString()<<sq.size();//<<this->currentThreadId();
+	}
+}
+
 void test_sqlite::OnBeginThread()
 {
 	
@@ -189,5 +236,47 @@ void test_sqlite::OnBeginThread()
 
 void test_sqlite::OnStop()
 {
+
+}
+
+void test_sqlite::OnWrite()
+{
+	for ( auto ite=m_lsEntity.begin(); ite!=m_lsEntity.end(); ++ite)
+	{
+		TaskObj* pTask = new TaskObj;
+		pTask->setEntity(*ite);
+		//pTask->setdb(m_db);
+		m_pManagerWork->AddTask( pTask );
+
+		m_lsTask << pTask;
+	}
+
+	m_pManagerWork->SetTotal(m_lsTask.count());
+	m_pManagerWork->BeginWork();
+
+	m_time->start();
+
+}
+
+void test_sqlite::OnClearDb()
+{
+	QString strReadTb = "delete  from testMultithread";
+	QSqlQuery sq(m_db);
+	sq.prepare( strReadTb );
+	if ( !sq.exec() )
+	{
+		qDebug()<<sq.lastError();
+		qDebug()<<"delete exec failed";
+	}
+	else
+	{
+		//qDebug()<<"read data suc"<<m_name<<sq.value(0).toInt()<<sq.value(1).toString()<<sq.size();//<<this->currentThreadId();
+	}
+}
+
+void test_sqlite::OnWorkerThreadManagerFinished()
+{
+	qint64 n = m_time->elapsed();
+	qDebug()<<"+++++++++++++"<<n;
 
 }

@@ -21,7 +21,7 @@ public:
 	void setFlat( int nFlag ){m_nFlag = nFlag;}
 	void SetConName(QString str){m_name = str;}
 	void createCon();
-	QSqlDatabase GetDatabase(QString const& connectionName);
+	//QSqlDatabase GetDatabase(QString const& connectionName);
 
 private:
 	QSqlDatabase m_db;
