@@ -23,10 +23,13 @@ public:
 
 	virtual void Parse( QByteArray ba,IJsonParser * entity );
 
+	
+
 	//strClassNameÅĞ¶Ï½âÎöÄÄ¸öÊôĞÔ
 	virtual void JsonParseObject(QByteArray ba, QString strClassName);
 	virtual void JsonParseArray(QJsonArray &npcArray,QString strClassName);
 
+	IJsonParser* factory(const char* parserName);
 	
 };
 

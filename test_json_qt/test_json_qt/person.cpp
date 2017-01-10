@@ -26,11 +26,11 @@ TestStruct2::~TestStruct2()
 
 
 
-TestStruct2& TestStruct2::operator = (const TestStruct2& rhs)
-{
-	this->m_num = rhs.num2();
-	return *this;
-}
+// TestStruct2& TestStruct2::operator = (const TestStruct2& rhs)
+// {
+// 	this->m_num = rhs.num2();
+// 	return *this;
+// }
 
  void TestStruct2::JsonToEntity(QByteArray ba)
  {
@@ -211,15 +211,19 @@ Person::~Person()
 
  void Person::JsonParseArray(QJsonArray &npcArray, QString strClassName)
 {
+	 m_lsStruct.clear();
 	 for (int npcIndex = 0; npcIndex < npcArray.size(); ++npcIndex)
 	 {
 		 QJsonObject npcObject = npcArray[npcIndex].toObject();
 		 if (strClassName == "listTS")
-		 {
-			 m_lsStruct.clear();			
+		 {			 		
 			 TestStruct2 ts;
 			 ts.JsonToEntity(QJsonDocument(npcObject).toJson());
 			 m_lsStruct << ts;
+		 }
+		 else
+		 {
+
 		 }
 	 }
 }

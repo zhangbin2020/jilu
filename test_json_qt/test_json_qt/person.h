@@ -159,6 +159,7 @@ protected:
 
   private:
 	TestStruct2 m_testStruct;
+
     QString m_name;
     int m_phoneNumber;
     Gender m_gender;

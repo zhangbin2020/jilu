@@ -80,3 +80,15 @@ void IJsonParser::JsonParseArray(QJsonArray &npcArray, QString strClassName)
 {
 
 }
+
+IJsonParser* IJsonParser::factory(const char* parserName)
+{
+	int id = QMetaType::type(parserName);
+	if (id != -1) 
+	{
+		IJsonParser *parser = static_cast<IJsonParser*>(QMetaType::create(id));
+		
+		return parser;
+	}
+	return NULL;
+}
