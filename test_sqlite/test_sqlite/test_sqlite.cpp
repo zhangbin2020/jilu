@@ -4,6 +4,7 @@
 test_sqlite::test_sqlite(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 	, m_lsEntity()
+	, m_ncount(0)
 {
 	ui.setupUi(this);
 
@@ -261,6 +262,18 @@ void test_sqlite::OnWrite()
 
 void test_sqlite::OnBtn5()
 {
+	m_time->start();
+	for ( int i=0; i<4; ++i )
+	{
+		WorkderInsertThread * pthred = new WorkderInsertThread(this);
+		//connect(pthred,&QThread::finished,this,&test_sqlite::OnFinished);
+		connect( pthred,SIGNAL(finished()),this,SLOT(OnFinished()) );
+		pthred->start();
+	}
+	return;
+
+
+
 	//´ò¿ª
 	if(m_db.isValid())
 	{
@@ -273,20 +286,11 @@ void test_sqlite::OnBtn5()
 
 	QTime tm;
 	tm.start();
+
+
+
 	for ( int i=0; i<1950; ++i )
 	{
-// 		QString strid = QString::number ( (quintptr)QThread::currentThread() );
-// 		if ( !QSqlDatabase::contains( strid ) )
-// 		{
-// 			m_db = QSqlDatabase::addDatabase("QSQLITE",strid);
-// 			m_db.setDatabaseName("D:\\github_jilu\\test_sqlite\\test_sqlite\\test.db");
-// 
-// 		}
-// 		else
-// 		{
-// 			m_db = QSqlDatabase::database(strid);
-// 		}
-
 		QString strReadTb = "insert into testMultithread(id,name) Values(:id,:name);";
 		QSqlQuery sq(m_db);
 		sq.prepare( strReadTb );
@@ -331,4 +335,13 @@ void test_sqlite::OnWorkerThreadManagerFinished()
 	qint64 n = m_time->elapsed();
 	qDebug()<<"+++++++++++++"<<n;
 
+}
+
+void test_sqlite::OnFinished()
+{
+	m_ncount++;
+	if ( m_ncount == 4 )
+	{
+		qDebug()<<"================="<<m_time->elapsed();
+	}
 }

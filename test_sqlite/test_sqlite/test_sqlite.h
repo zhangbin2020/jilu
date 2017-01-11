@@ -17,6 +17,7 @@
 #include "WorkerThread.h"
 #include "WorkerThreadManager.h"
 #include <QTime>
+#include "WorkderInsertThread.h"
 
 class TaskObj;
 
@@ -52,6 +53,7 @@ public slots:
 	void OnBtn5();
 	void OnClearDb();
 	void OnWorkerThreadManagerFinished();
+	void OnFinished();
 
 private:
 	Ui::test_sqliteClass ui;
@@ -66,6 +68,7 @@ private:
 	QList< TaskObj* > m_lsTask;
 
 	QTime* m_time;
+	int m_ncount;
 };
 
 #endif // TEST_SQLITE_H
