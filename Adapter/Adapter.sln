@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adapter", "Adapter\Adapter.vcxproj", "{EAB327D3-6F33-43A2-AD4F-836220A9B27A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compoment", "Compoment\Compoment.vcxproj", "{8C19EA1E-5F1C-4AD1-B030-5FB275A8134D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bridge", "Bridge\Bridge.vcxproj", "{7F8F4F58-8515-48FE-BAEB-8997EF85B804}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAB327D3-6F33-43A2-AD4F-836220A9B27A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EAB327D3-6F33-43A2-AD4F-836220A9B27A}.Debug|Win32.Build.0 = Debug|Win32
+		{EAB327D3-6F33-43A2-AD4F-836220A9B27A}.Release|Win32.ActiveCfg = Release|Win32
+		{EAB327D3-6F33-43A2-AD4F-836220A9B27A}.Release|Win32.Build.0 = Release|Win32
+		{8C19EA1E-5F1C-4AD1-B030-5FB275A8134D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8C19EA1E-5F1C-4AD1-B030-5FB275A8134D}.Debug|Win32.Build.0 = Debug|Win32
+		{8C19EA1E-5F1C-4AD1-B030-5FB275A8134D}.Release|Win32.ActiveCfg = Release|Win32
+		{8C19EA1E-5F1C-4AD1-B030-5FB275A8134D}.Release|Win32.Build.0 = Release|Win32
+		{7F8F4F58-8515-48FE-BAEB-8997EF85B804}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7F8F4F58-8515-48FE-BAEB-8997EF85B804}.Debug|Win32.Build.0 = Debug|Win32
+		{7F8F4F58-8515-48FE-BAEB-8997EF85B804}.Release|Win32.ActiveCfg = Release|Win32
+		{7F8F4F58-8515-48FE-BAEB-8997EF85B804}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
