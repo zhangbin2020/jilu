@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
 	SubjectInterface* sub = new SubjectInterface;
 	sub->m_name = QString("xiaoxiao");
 
+
+	//目标对象 的实例，放在baseInterface类中，
 	RealPerson* real = new RealPerson;//real对象必须有一个 目标对象的 实例
 	real->setSub(sub);
 
