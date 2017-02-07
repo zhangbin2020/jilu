@@ -26,11 +26,11 @@ TestStruct2::~TestStruct2()
 
 
 
-// TestStruct2& TestStruct2::operator = (const TestStruct2& rhs)
-// {
-// 	this->m_num = rhs.num2();
-// 	return *this;
-// }
+TestStruct2& TestStruct2::operator = (const TestStruct2& rhs)
+{
+	this->m_num = rhs.num2();
+	return *this;
+}
 
  void TestStruct2::JsonToEntity(QByteArray ba)
  {

@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_multi_dll", "test_multi_dll\test_multi_dll.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BEB20E2E-4C23-404A-A4E3-85525CE6D65A} = {BEB20E2E-4C23-404A-A4E3-85525CE6D65A}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll1", "dll1\dll1.vcxproj", "{BEB20E2E-4C23-404A-A4E3-85525CE6D65A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8DFB0325-8C21-4C65-8638-829C8771B718} = {8DFB0325-8C21-4C65-8638-829C8771B718}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dll2", "dll2\dll2.vcxproj", "{8DFB0325-8C21-4C65-8638-829C8771B718}"
 EndProject
