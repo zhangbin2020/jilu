@@ -27,56 +27,7 @@
 #include <QtCore/QVariant>
 
 
-// 
-// class TestStruct2: public JsonEntity
-// {
-// 	Q_OBJECT
-// 		Q_PROPERTY(int num2 READ num2 WRITE setNum2)
-// 
-// public:
-// 	TestStruct2(QObject* parent = 0);
-// 	TestStruct2( const TestStruct2& ts );
-// 	~TestStruct2();
-// 
-// 	TestStruct2& operator = (const TestStruct2& rhs);
-// 
-// 	int num2() const;
-// 	void setNum2(const int& n);
-// 
-// private:
-// 	int m_num;
-// };
-// Q_DECLARE_METATYPE( TestStruct2 );
-// 
-// class TestStruct: public JsonEntity
-// {
-// 	Q_OBJECT
-// 	Q_PROPERTY(int num READ num WRITE setNum)
-// 	 Q_PROPERTY(JsonEntityPtr ts READ ts WRITE setTs)
-// 
-// public:
-// 	TestStruct(QObject* parent = 0);
-// 	TestStruct( const TestStruct& ts );
-// 	~TestStruct();
-// 
-// 	 TestStruct& operator = (const TestStruct& rhs);
-// 
-// 	int num() const;
-// 	void setNum(const int& n);
-// 
-// 	JsonEntityPtr ts();
-// 	void setTs( JsonEntityPtr ts);
-// 
-// private:
-// 	int m_num;
-// 	JsonEntityPtr m_ts;
-// };
-// 
-// typedef TestStruct* TestStructPtr;
-// 
-// Q_DECLARE_METATYPE( TestStruct );
-// Q_DECLARE_METATYPE( TestStructPtr );
-// 
+
 
 
 #include "IEntity.h"
