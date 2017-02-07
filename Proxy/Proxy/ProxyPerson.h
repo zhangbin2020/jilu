@@ -5,6 +5,8 @@
 
 #include "RealPerson.h"
 
+
+//代理类必须 拥有一个real对象的实例，
 class ProxyPerson : public BaseInterface
 {
 	Q_OBJECT
@@ -15,10 +17,10 @@ public:
 
 	void SetRealPerson(BaseInterface*p){m_RealPerson = p;};
 
-	void SongDongXi();
+	void SongDongXi();//调用real对象的SongDongXi
 
 private:
-	BaseInterface* m_RealPerson;
+	BaseInterface* m_RealPerson;//
 	
 };
 

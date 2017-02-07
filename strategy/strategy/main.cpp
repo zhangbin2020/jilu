@@ -28,6 +28,10 @@ int main(int argc, char *argv[])
 // 	}
 
 
+	/*
+	* 策略模式， 就是一个简单的虚函数，
+	* 一个共同的基类中，有一个虚函数，然后多个子类去实现这个虚函数，
+	*/
 	
 	BaseInterface* pBase = Factory::GetStrategy(s2);
 
