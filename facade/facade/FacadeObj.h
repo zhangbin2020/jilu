@@ -10,7 +10,7 @@ class FacadeObj : public QObject
 	Q_OBJECT
 
 public:
-	FacadeObj(QObject *parent);
+	FacadeObj(QObject *parent=0);
 	~FacadeObj();
 
 	void Method();

@@ -2,6 +2,8 @@
 #define CLASSB_H
 
 #include <QObject>
+#include "classa.h"
+
 
 class ClassB : public QObject
 {
@@ -11,7 +13,7 @@ public:
 	ClassB(QObject *parent=0);
 	~ClassB();
 
-	void MethodB();
+	void Method(ClassA* A);
 
 private:
 	

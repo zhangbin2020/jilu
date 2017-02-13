@@ -1,0 +1,12 @@
+#ifndef VISIT_MODULE_GLOBAL_H
+#define VISIT_MODULE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef VISIT_MODULE_LIB
+# define VISIT_MODULE_EXPORT Q_DECL_EXPORT
+#else
+# define VISIT_MODULE_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // VISIT_MODULE_GLOBAL_H

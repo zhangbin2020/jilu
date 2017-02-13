@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+
+class ClassB;
 class ClassA : public QObject
 {
 	Q_OBJECT
@@ -12,6 +14,7 @@ public:
 	~ClassA();
 
 	void MethodA();
+	void MethodB( ClassB b );
 
 private:
 	
