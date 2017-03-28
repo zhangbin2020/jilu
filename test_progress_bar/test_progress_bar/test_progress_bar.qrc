@@ -1,0 +1,4 @@
+<RCC>
+    <qresource prefix="test_progress_bar">
+    </qresource>
+</RCC>

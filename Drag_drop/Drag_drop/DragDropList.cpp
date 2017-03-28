@@ -53,9 +53,9 @@ void DragDropList::dragEnterEvent(QDragEnterEvent *e)
 	DragDropList *source =
 		qobject_cast<DragDropList *>(e->source());
 
-	if (source /*&& source != this*/) {
-		e->setDropAction(Qt::MoveAction);
-		e->accept();
+	if (source ) 
+	{
+		e->accept();//++++++++++这一句设置必须要有，否则不允许拖动
 	}
 }
 
@@ -66,9 +66,9 @@ void DragDropList::dragMoveEvent(QDragMoveEvent *e)
 	DragDropList *source =
 		qobject_cast<DragDropList *>(e->source());
 
-	if (source /*&& source != this*/) {
-		e->setDropAction(Qt::MoveAction);
-		e->accept();
+	if (source )
+	{
+		//e->accept();//dragMoveEvent中可以不设置
 	}
 }
 
@@ -99,7 +99,7 @@ void DragDropList::PerfomDrag()
 
 		//创建QDrag
 		QDrag *drag = new QDrag(this);
-		drag->setMimeData(mimeData);
+		drag->setMimeData(mimeData);//++++++++++++++++mimeData必须要有，即使不需要用mimeData中的数据，
 		drag->setPixmap(QPixmap(":/images/person.png"));
 
 		//执行QDrag
