@@ -12,9 +12,10 @@ CaiSeBanMa::CaiSeBanMa(QWidget *parent, Qt::WFlags flags)
 {
 	ui.setupUi(this);
 
+
 	ui.lcdNumber->setDigitCount(10);
 	ui.lcdNumber->setMode( QLCDNumber::Dec	 );
-	ui.lcdNumber->setSegmentStyle( QLCDNumber::Outline );
+	//ui.lcdNumber->setSegmentStyle( QLCDNumber::Outline );
 	
 	m_timer = new QTimer(this);
 	m_timer->setInterval(TIMERSPACE);
@@ -37,7 +38,7 @@ void CaiSeBanMa::OnStartBtn()
 
 void CaiSeBanMa::OnStopBtn()
 {
-	m_timer->stop();
+	//m_timer->stop();
 
 }
 
@@ -65,7 +66,9 @@ void CaiSeBanMa::OnTimer()
 {
 	m_money = m_money - m_Rate;
 
-	ui.lcdNumber->display( m_money );
+	QString strMoney = QString::number( m_money,'f',2 );
+
+	ui.lcdNumber->display( strMoney );
 
 }
 
