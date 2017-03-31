@@ -1,25 +1,23 @@
-#include "caisebanma.h"
-
-
-const int TIMERSPACE = 1*1000;//¶¨Ê±Æ÷Ê±¼ä¼ä¸ô
+ï»¿#include "caisebanma.h"
 
 CaiSeBanMa::CaiSeBanMa(QWidget *parent, Qt::WFlags flags)
 	: QWidget(parent, flags)
-	, m_time(10)
-	, m_money(100)
-	, m_Rate(0)
-	, m_timer(NULL)
+	, m_bStart(true)
 {
 	ui.setupUi(this);
 
+	this->setWindowIcon(QIcon(":/CaiSeBanMa/Resources/231.png"));
 
-	ui.lcdNumber->setDigitCount(10);
-	ui.lcdNumber->setMode( QLCDNumber::Dec	 );
-	//ui.lcdNumber->setSegmentStyle( QLCDNumber::Outline );
-	
-	m_timer = new QTimer(this);
-	m_timer->setInterval(TIMERSPACE);
-	InitConnectSignals();
+	//QValidator *validator=new QIntValidator(1,10000,this);
+	QRegExp regx("[1-9]{5}$");
+	QValidator *validator = new QRegExpValidator(regx, this );
+	ui.TIME->setValidator(validator);
+	ui.MONEY->setValidator(validator);
+
+	m_thread = new WorkThread(this);
+	connect( m_thread,SIGNAL(SigResult(QString)),this,SLOT(OnShowRet(QString)),Qt::BlockingQueuedConnection );
+
+	connect(ui.StartBtn,SIGNAL(clicked()),this,SLOT(OnStart()));
 }
 
 CaiSeBanMa::~CaiSeBanMa()
@@ -27,57 +25,55 @@ CaiSeBanMa::~CaiSeBanMa()
 
 }
 
-void CaiSeBanMa::OnStartBtn()
+void CaiSeBanMa::OnTime()
 {
-	//¼ÆËã±ÈÂÊ Ä¬ÈÏ·ÖÖÓ
-	int nTimeS = m_time * 60;//Ãë 
-	m_Rate = m_money / nTimeS;
-
-	m_timer->start();
-}
-
-void CaiSeBanMa::OnStopBtn()
-{
-	//m_timer->stop();
 
 }
-
-void CaiSeBanMa::OnResetBtn()
+void CaiSeBanMa::OnMoney()
 {
-	m_timer->stop();
-	ui.lcdNumber->display("");
-	ui.TimeEdit->clear();
-	ui.MoneyEdit->clear();
-}
-
-void CaiSeBanMa::OnTimeChanged(const QString& text)
-{
-	QString strTime = ui.TimeEdit->displayText();
-	m_time = strTime.toLongLong();
-}
-
-void CaiSeBanMa::OnMoneyChanged(const QString& text)
-{
-	QString strMoney = ui.MoneyEdit->displayText();
-	m_money = strMoney.toLongLong();
-}
-
-void CaiSeBanMa::OnTimer()
-{
-	m_money = m_money - m_Rate;
-
-	QString strMoney = QString::number( m_money,'f',2 );
-
-	ui.lcdNumber->display( strMoney );
 
 }
-
-void CaiSeBanMa::InitConnectSignals()
+void CaiSeBanMa::OnStart()
 {
-	connect(ui.StartBtn,SIGNAL(clicked()),this,SLOT(OnStartBtn()));
-	connect(ui.StopBtn,SIGNAL(clicked()),this,SLOT(OnStopBtn()));
-	connect(ui.ResetBtn,SIGNAL(clicked()),this,SLOT(OnResetBtn()));
-	connect(ui.TimeEdit,SIGNAL(textChanged(const QString&)),this,SLOT(OnTimeChanged(const QString &)));
-	connect(ui.MoneyEdit,SIGNAL(textChanged(const QString&)),this,SLOT(OnMoneyChanged(const QString &)));
-	connect(m_timer,SIGNAL(timeout()),this,SLOT(OnTimer()));
+	if ( m_bStart )
+	{
+		m_bStart = !m_bStart;
+		ui.StartBtn->setText(tr("é‡ç½®"));
+
+		QString strTime = ui.TIME->text();
+		QString strMoney = ui.MONEY->text();
+
+		double t = strTime.toDouble()*60;
+		double money = strMoney.toDouble();
+		m_Rate = money / t;
+
+		m_thread->SetItem( money,m_Rate );
+		m_thread->start();
+	}
+	else
+	{
+		m_bStart = !m_bStart;
+		ui.StartBtn->setText(tr("å¼€å§‹"));
+
+		m_thread->SetStop(true);
+
+		ui.TIME->setText("");
+		ui.MONEY->setText("");
+		ui.RESULT->setText("");
+	}
+}
+// void CaiSeBanMa::OnReset()
+// {
+// 	m_thread->SetStop(true);
+// 
+// 	ui.TIME->setText("");
+// 	ui.MONEY->setText("");
+// 	ui.RESULT->setText("");
+// }
+
+void CaiSeBanMa::OnShowRet( QString val )
+{
+	//val += QStringLiteral("å…ƒ");
+	ui.RESULT->setText( val );
+
 }

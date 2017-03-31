@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="CaiSeBanMa">
+    <qresource prefix="/CaiSeBanMa">
+        <file>Resources/123.png</file>
+        <file>Resources/231.png</file>
     </qresource>
 </RCC>

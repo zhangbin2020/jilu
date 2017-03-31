@@ -3,7 +3,7 @@
 
 #include <QtGui/QWidget>
 #include "ui_caisebanma.h"
-#include <QTimer>
+#include "WorkThread.h"
 
 class CaiSeBanMa : public QWidget
 {
@@ -13,24 +13,18 @@ public:
 	CaiSeBanMa(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~CaiSeBanMa();
 
-private slots:
-	void OnStartBtn();
-	void OnStopBtn();
-	void OnResetBtn();
-	void OnTimeChanged(const QString&);
-	void OnMoneyChanged(const QString&);
-	void OnTimer();
+	private slots:
+		void OnTime();
+		void OnMoney();
+		void OnStart();
+		void OnShowRet( QString );
 
-private:
-	void InitConnectSignals();
-	
 private:
 	Ui::CaiSeBanMaClass ui;
 
-	qint64 m_time;
-	double m_money;
+	WorkThread* m_thread;
 	double m_Rate;
-	QTimer* m_timer;
+	bool m_bStart;//1:ø™ º£ª0£∫÷ÿ÷√
 };
 
 #endif // CAISEBANMA_H
