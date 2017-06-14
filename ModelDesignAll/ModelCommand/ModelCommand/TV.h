@@ -17,5 +17,10 @@ public:
 	{
 		qDebug() << "turn off tv";
 	}
+
+	void ChangeChannel()
+	{
+		qDebug() << "change channel";
+	}
 };
 

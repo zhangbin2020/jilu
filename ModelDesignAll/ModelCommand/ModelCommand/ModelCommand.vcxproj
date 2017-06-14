@@ -86,6 +86,7 @@
     <ClCompile Include="Invoker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenCommand.cpp" />
+    <ClCompile Include="SwitchChannelCommand.cpp" />
     <ClCompile Include="turnOffCommand.cpp" />
     <ClCompile Include="TV.cpp" />
   </ItemGroup>
@@ -106,6 +107,7 @@
     <ClInclude Include="GeneratedFiles\ui_modelcommand.h" />
     <ClInclude Include="Invoker.h" />
     <ClInclude Include="OpenCommand.h" />
+    <ClInclude Include="SwitchChannelCommand.h" />
     <ClInclude Include="turnOffCommand.h" />
     <ClInclude Include="TV.h" />
   </ItemGroup>
